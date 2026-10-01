@@ -1,0 +1,9 @@
+{
+  "name": "run-warehouse-dashboards-driver",
+  "private": true,
+  "type": "module",
+  "description": "Browser driver for the Warehouse Activity Intelligence dashboards",
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

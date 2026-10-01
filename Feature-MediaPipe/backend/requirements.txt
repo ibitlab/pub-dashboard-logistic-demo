@@ -1,0 +1,11 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+websockets==12.0
+python-multipart==0.0.9
+mediapipe==0.10.33
+opencv-python-headless==4.10.0.84
+numpy>=1.26.4,<3
+scikit-learn>=1.5.2
+joblib>=1.4.2
+aiosqlite==0.20.0
+pydantic>=2.9.2

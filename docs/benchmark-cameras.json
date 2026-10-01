@@ -1,0 +1,535 @@
+{
+  "pose_detection": {
+    "note": "Every 5th frame of each camera clip replayed through /api/predict/landmarks, CPU only, one app at a time. MediaPipe: lite model, single person by design. RTMPose: balanced mode; latency includes ReID and classification.",
+    "clips": [
+      {
+        "clip": "cam-01-aisle-a-overhead_clip1",
+        "frames": 60,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 60,
+          "frames_with_pose": 46,
+          "detection_rate_pct": 76.7,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 20.8,
+          "p90_latency_ms": 21.4,
+          "activities": {
+            "untrained": 46
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 60,
+          "frames_with_pose": 59,
+          "detection_rate_pct": 98.3,
+          "mean_persons_when_detected": 2.68,
+          "max_persons": 3,
+          "mean_confidence_pct": 89.1,
+          "median_latency_ms": 408.9,
+          "p90_latency_ms": 415.1,
+          "activities": {
+            "picking": 1,
+            "walking": 25,
+            "talking": 15,
+            "standing": 18
+          }
+        }
+      },
+      {
+        "clip": "cam-01-aisle-a-overhead_clip2",
+        "frames": 61,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 61,
+          "frames_with_pose": 4,
+          "detection_rate_pct": 6.6,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 11.0,
+          "p90_latency_ms": 11.6,
+          "activities": {
+            "untrained": 4
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 61,
+          "frames_with_pose": 49,
+          "detection_rate_pct": 80.3,
+          "mean_persons_when_detected": 2.61,
+          "max_persons": 3,
+          "mean_confidence_pct": 96.6,
+          "median_latency_ms": 408.0,
+          "p90_latency_ms": 419.3,
+          "activities": {
+            "walking": 49
+          }
+        }
+      },
+      {
+        "clip": "cam-01-aisle-a-overhead_clip3",
+        "frames": 48,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 48,
+          "frames_with_pose": 30,
+          "detection_rate_pct": 62.5,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 20.8,
+          "p90_latency_ms": 21.3,
+          "activities": {
+            "untrained": 30
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 48,
+          "frames_with_pose": 42,
+          "detection_rate_pct": 87.5,
+          "mean_persons_when_detected": 1.5,
+          "max_persons": 3,
+          "mean_confidence_pct": 96.0,
+          "median_latency_ms": 307.9,
+          "p90_latency_ms": 363.6,
+          "activities": {
+            "walking": 42
+          }
+        }
+      },
+      {
+        "clip": "cam-02-aisle-b-overhead_clip1",
+        "frames": 51,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 51,
+          "frames_with_pose": 27,
+          "detection_rate_pct": 52.9,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 20.4,
+          "p90_latency_ms": 21.1,
+          "activities": {
+            "untrained": 27
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 51,
+          "frames_with_pose": 39,
+          "detection_rate_pct": 76.5,
+          "mean_persons_when_detected": 2.64,
+          "max_persons": 3,
+          "mean_confidence_pct": 92.7,
+          "median_latency_ms": 414.7,
+          "p90_latency_ms": 419.7,
+          "activities": {
+            "walking": 38,
+            "scanning": 1
+          }
+        }
+      },
+      {
+        "clip": "cam-03-racks-topdown_clip1",
+        "frames": 86,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 86,
+          "frames_with_pose": 14,
+          "detection_rate_pct": 16.3,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 11.4,
+          "p90_latency_ms": 20.9,
+          "activities": {
+            "untrained": 14
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 86,
+          "frames_with_pose": 79,
+          "detection_rate_pct": 91.9,
+          "mean_persons_when_detected": 1.75,
+          "max_persons": 3,
+          "mean_confidence_pct": 73.0,
+          "median_latency_ms": 358.9,
+          "p90_latency_ms": 385.8,
+          "activities": {
+            "walking": 41,
+            "picking": 34,
+            "pull-cart": 1,
+            "talking": 1,
+            "standing": 2
+          }
+        }
+      },
+      {
+        "clip": "cam-04-aisle-floor-level_clip1",
+        "frames": 79,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 79,
+          "frames_with_pose": 64,
+          "detection_rate_pct": 81.0,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 20.8,
+          "p90_latency_ms": 21.2,
+          "activities": {
+            "untrained": 64
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 79,
+          "frames_with_pose": 72,
+          "detection_rate_pct": 91.1,
+          "mean_persons_when_detected": 1.96,
+          "max_persons": 3,
+          "mean_confidence_pct": 97.3,
+          "median_latency_ms": 357.7,
+          "p90_latency_ms": 395.8,
+          "activities": {
+            "walking": 36,
+            "carrying": 36
+          }
+        }
+      },
+      {
+        "clip": "cam-04-aisle-floor-level_clip2",
+        "frames": 91,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 91,
+          "frames_with_pose": 60,
+          "detection_rate_pct": 65.9,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 20.9,
+          "p90_latency_ms": 21.4,
+          "activities": {
+            "untrained": 60
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 91,
+          "frames_with_pose": 79,
+          "detection_rate_pct": 86.8,
+          "mean_persons_when_detected": 1.03,
+          "max_persons": 2,
+          "mean_confidence_pct": 92.5,
+          "median_latency_ms": 304.8,
+          "p90_latency_ms": 310.3,
+          "activities": {
+            "scanning": 43,
+            "standing": 26,
+            "walking": 10
+          }
+        }
+      },
+      {
+        "clip": "cam-05-loading-dock_clip1",
+        "frames": 70,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 70,
+          "frames_with_pose": 38,
+          "detection_rate_pct": 54.3,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 20.6,
+          "p90_latency_ms": 21.1,
+          "activities": {
+            "untrained": 38
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 70,
+          "frames_with_pose": 70,
+          "detection_rate_pct": 100.0,
+          "mean_persons_when_detected": 1.01,
+          "max_persons": 2,
+          "mean_confidence_pct": 91.5,
+          "median_latency_ms": 302.1,
+          "p90_latency_ms": 310.0,
+          "activities": {
+            "walking": 49,
+            "push-cart": 21
+          }
+        }
+      },
+      {
+        "clip": "cam-06-storage-cleaning_clip1",
+        "frames": 88,
+        "mediapipe_lite": {
+          "label": "mediapipe pose_landmarker_lite.task",
+          "frames": 88,
+          "frames_with_pose": 31,
+          "detection_rate_pct": 35.2,
+          "mean_persons_when_detected": 1,
+          "max_persons": 1,
+          "mean_confidence_pct": 0.0,
+          "median_latency_ms": 11.1,
+          "p90_latency_ms": 20.3,
+          "activities": {
+            "untrained": 31
+          }
+        },
+        "rtmpose_balanced": {
+          "label": "rtmpose balanced",
+          "frames": 88,
+          "frames_with_pose": 50,
+          "detection_rate_pct": 56.8,
+          "mean_persons_when_detected": 1.38,
+          "max_persons": 4,
+          "mean_confidence_pct": 86.8,
+          "median_latency_ms": 298.2,
+          "p90_latency_ms": 357.2,
+          "activities": {
+            "walking": 44,
+            "scanning": 2,
+            "push-cart": 4
+          }
+        }
+      }
+    ]
+  },
+  "mediapipe_classifier": {
+    "note": "Feature-MediaPipe trained through its Upload flow: one label per whole clip, 7 single-activity clips, every 5th frame, no synthetic data. Not directly comparable with the RTMPose interval-labeled dataset.",
+    "random_frame_split_80_20_macro_f1": 0.773,
+    "leave_one_clip_out": {
+      "samples": 261,
+      "features": 7,
+      "clips": [
+        "cam-06-storage-cleaning_clip1",
+        "cam-01-aisle-a-overhead_clip2",
+        "cam-04-aisle-floor-level_clip2",
+        "cam-02-aisle-b-overhead_clip1",
+        "cam-01-aisle-a-overhead_clip3",
+        "cam-05-loading-dock_clip1",
+        "cam-04-aisle-floor-level_clip1"
+      ],
+      "labels": {
+        "carrying": {
+          "tp": 0,
+          "fp": 58,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": null,
+          "f1": null,
+          "untestable_on": [
+            "cam-04-aisle-floor-level_clip1"
+          ]
+        },
+        "push-cart": {
+          "tp": 0,
+          "fp": 34,
+          "fn": 71,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "untestable_on": []
+        },
+        "scanning": {
+          "tp": 0,
+          "fp": 20,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": null,
+          "f1": null,
+          "untestable_on": [
+            "cam-04-aisle-floor-level_clip2"
+          ]
+        },
+        "walking": {
+          "tp": 25,
+          "fp": 59,
+          "fn": 40,
+          "precision": 0.2976190476190476,
+          "recall": 0.38461538461538464,
+          "f1": 0.33557046979865773,
+          "untestable_on": []
+        }
+      },
+      "macro_f1": 0.16778523489932887,
+      "folds": [
+        {
+          "clip": "cam-06-storage-cleaning_clip1",
+          "samples": 34,
+          "labels": {
+            "carrying": {
+              "true": 0,
+              "tp": 0,
+              "fp": 3,
+              "fn": 0
+            },
+            "push-cart": {
+              "true": 34,
+              "tp": 0,
+              "fp": 0,
+              "fn": 34
+            },
+            "scanning": {
+              "true": 0,
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "walking": {
+              "true": 0,
+              "tp": 0,
+              "fp": 10,
+              "fn": 0
+            }
+          }
+        },
+        {
+          "clip": "cam-01-aisle-a-overhead_clip2",
+          "samples": 8,
+          "labels": {
+            "push-cart": {
+              "true": 0,
+              "tp": 0,
+              "fp": 4,
+              "fn": 0
+            },
+            "walking": {
+              "true": 8,
+              "tp": 2,
+              "fp": 0,
+              "fn": 6
+            }
+          }
+        },
+        {
+          "clip": "cam-04-aisle-floor-level_clip2",
+          "samples": 58,
+          "labels": {
+            "carrying": {
+              "true": 0,
+              "tp": 0,
+              "fp": 52,
+              "fn": 0
+            },
+            "push-cart": {
+              "true": 0,
+              "tp": 0,
+              "fp": 3,
+              "fn": 0
+            },
+            "scanning": {
+              "untestable": true,
+              "true": 58
+            }
+          }
+        },
+        {
+          "clip": "cam-02-aisle-b-overhead_clip1",
+          "samples": 28,
+          "labels": {
+            "carrying": {
+              "true": 0,
+              "tp": 0,
+              "fp": 2,
+              "fn": 0
+            },
+            "push-cart": {
+              "true": 0,
+              "tp": 0,
+              "fp": 7,
+              "fn": 0
+            },
+            "walking": {
+              "true": 28,
+              "tp": 9,
+              "fp": 0,
+              "fn": 19
+            }
+          }
+        },
+        {
+          "clip": "cam-01-aisle-a-overhead_clip3",
+          "samples": 29,
+          "labels": {
+            "push-cart": {
+              "true": 0,
+              "tp": 0,
+              "fp": 7,
+              "fn": 0
+            },
+            "walking": {
+              "true": 29,
+              "tp": 14,
+              "fp": 0,
+              "fn": 15
+            }
+          }
+        },
+        {
+          "clip": "cam-05-loading-dock_clip1",
+          "samples": 37,
+          "labels": {
+            "carrying": {
+              "true": 0,
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "push-cart": {
+              "true": 37,
+              "tp": 0,
+              "fp": 0,
+              "fn": 37
+            },
+            "walking": {
+              "true": 0,
+              "tp": 0,
+              "fp": 34,
+              "fn": 0
+            }
+          }
+        },
+        {
+          "clip": "cam-04-aisle-floor-level_clip1",
+          "samples": 67,
+          "labels": {
+            "carrying": {
+              "untestable": true,
+              "true": 67
+            },
+            "push-cart": {
+              "true": 0,
+              "tp": 0,
+              "fp": 13,
+              "fn": 0
+            },
+            "scanning": {
+              "true": 0,
+              "tp": 0,
+              "fp": 19,
+              "fn": 0
+            },
+            "walking": {
+              "true": 0,
+              "tp": 0,
+              "fp": 15,
+              "fn": 0
+            }
+          }
+        }
+      ]
+    }
+  }
+}

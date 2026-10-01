@@ -1,0 +1,72 @@
+{
+  "note": "Gallery: 4 workers, 8 crops, all from cam-01 (overhead). Every 5th frame of each clip. OSNet-AIN with ImageNet weights, threshold 0.65.",
+  "clips": {
+    "cam-01-aisle-a-overhead_clip2.mp4": {
+      "frames_with_people": 49,
+      "names": {
+        "unknown": 54,
+        "Worker D": 12,
+        "Worker C": 4,
+        "Worker A": 25,
+        "Worker B": 33
+      },
+      "frames_with_duplicate_name": 11
+    },
+    "cam-02-aisle-b-overhead_clip1.mp4": {
+      "frames_with_people": 39,
+      "names": {
+        "Worker B": 39,
+        "Worker D": 35,
+        "Worker C": 21,
+        "Worker A": 2,
+        "unknown": 6
+      },
+      "frames_with_duplicate_name": 12
+    },
+    "cam-03-racks-topdown_clip1.mp4": {
+      "frames_with_people": 79,
+      "names": {
+        "Worker A": 66,
+        "Worker C": 29,
+        "unknown": 40,
+        "Worker B": 1,
+        "Worker D": 2
+      },
+      "frames_with_duplicate_name": 8
+    },
+    "cam-04-aisle-floor-level_clip1.mp4": {
+      "frames_with_people": 72,
+      "names": {
+        "unknown": 140,
+        "Worker C": 1
+      },
+      "frames_with_duplicate_name": 0,
+      "detections_in_two_person_frames_correct": "0/134"
+    },
+    "cam-04-aisle-floor-level_clip2.mp4": {
+      "frames_with_people": 79,
+      "names": {
+        "unknown": 81
+      },
+      "frames_with_duplicate_name": 0
+    },
+    "cam-05-loading-dock_clip1.mp4": {
+      "frames_with_people": 70,
+      "names": {
+        "unknown": 66,
+        "Worker C": 5
+      },
+      "frames_with_duplicate_name": 0,
+      "strangers_named_as_crew": "5/71"
+    },
+    "cam-06-storage-cleaning_clip1.mp4": {
+      "frames_with_people": 50,
+      "names": {
+        "unknown": 67,
+        "Worker C": 2
+      },
+      "frames_with_duplicate_name": 0,
+      "strangers_named_as_crew": "2/69"
+    }
+  }
+}

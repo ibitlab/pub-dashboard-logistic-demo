@@ -1,0 +1,20 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+temp
+
+node_modules
+dist
+scheduled_tasks.lock
+
+# Feature-MediaPipe
+Feature-MediaPipe/venv/
+Feature-MediaPipe/data/
+Feature-MediaPipe/backend/models
+
+# Feature-RTMPose
+Feature-RTMPose/venv/
+Feature-RTMPose/__pycache__/
+Feature-RTMPose/data/
+

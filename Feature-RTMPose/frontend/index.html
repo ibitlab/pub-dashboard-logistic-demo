@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Activity Intelligence</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+    <header class="header">
+        <div class="header__logo">
+            <span class="header__icon">&#9881;</span>
+            <h1>Warehouse AI</h1>
+            <span class="header__subtitle">Activity Intelligence Dashboard</span>
+        </div>
+        <nav class="header__nav">
+            <button class="tab-btn" data-tab="live">Live Analysis</button>
+            <button class="tab-btn active" data-tab="training">Training</button>
+            <button class="tab-btn" data-tab="annotate">Annotate</button>
+            <button class="tab-btn" data-tab="events">Events Log</button>
+        </nav>
+        <div class="header__model">
+            <select class="select" id="poseModelMode" style="font-size:11px; padding:4px 8px">
+                <option value="lightweight">Lightweight — RTMPose-s + YOLOX-tiny (~40MB)</option>
+                <option value="balanced" selected>Balanced — RTMPose-m + YOLOX-m (~150MB)</option>
+                <option value="performance">Performance — RTMPose-x + YOLOX-x (~600MB)</option>
+            </select>
+            <span id="poseModelSwitchStatus" style="font-size:11px; color:var(--text-muted)"></span>
+        </div>
+        <div class="header__status">
+            <span class="status-dot" id="connectionStatus"></span>
+            <span id="connectionLabel">Disconnected</span>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- ===== LIVE ANALYSIS TAB ===== -->
+        <section class="tab-content" id="tab-live">
+            <!-- KPI Cards Row -->
+            <div class="kpi-row" id="kpiCards">
+                <div class="kpi-card">
+                    <div class="kpi-card__label">Active Time</div>
+                    <div class="kpi-card__value" id="kpiActiveTime">0%</div>
+                    <div class="kpi-card__trend" id="kpiActiveTrend"></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-card__label">Operations/hr</div>
+                    <div class="kpi-card__value" id="kpiOpsHour">0</div>
+                    <div class="kpi-card__trend" id="kpiOpsTrend"></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-card__label">Avg Duration</div>
+                    <div class="kpi-card__value" id="kpiAvgDuration">0s</div>
+                    <div class="kpi-card__trend" id="kpiDurTrend"></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-card__label">Confidence</div>
+                    <div class="kpi-card__value" id="kpiConfidence">0%</div>
+                    <div class="kpi-card__trend" id="kpiConfTrend"></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-card__label">Latency</div>
+                    <div class="kpi-card__value" id="kpiLatency">0ms</div>
+                    <div class="kpi-card__trend" id="kpiLatTrend"></div>
+                </div>
+                <div class="kpi-card kpi-card--highlight">
+                    <div class="kpi-card__label">Current Activity</div>
+                    <div class="kpi-card__value" id="kpiCurrentActivity">--</div>
+                    <div class="kpi-card__trend" id="kpiActivityConf"></div>
+                </div>
+            </div>
+
+            <!-- Main content: Video + Charts -->
+            <div class="live-grid">
+                <!-- Video Feed -->
+                <div class="panel panel--video">
+                    <div class="panel__header">
+                        <h3>Video Feed</h3>
+                        <div class="panel__controls">
+                            <select class="select" id="demoVideoSelect" style="display:none">
+                                <option value="">-- Demo Video --</option>
+                            </select>
+                            <button class="btn btn--primary" id="btnStartCamera">Start Camera</button>
+                            <button class="btn btn--secondary" id="btnUploadVideo">Upload Video</button>
+                            <input type="file" id="videoFileInput" accept="video/*" hidden>
+                        </div>
+                    </div>
+                    <div class="video-container">
+                        <video id="videoElement" autoplay playsinline muted></video>
+                        <canvas id="overlayCanvas"></canvas>
+                        <div class="video-overlay" id="videoOverlay">
+                            <div class="activity-badge" id="activityBadge">
+                                <span class="activity-badge__label" id="overlayActivity">--</span>
+                                <span class="activity-badge__conf" id="overlayConfidence">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hidden canvas for frame capture -->
+                    <canvas id="captureCanvas" style="display:none"></canvas>
+                </div>
+
+                <!-- Charts Column -->
+                <div class="charts-column">
+                    <!-- Classification Scores -->
+                    <div class="panel">
+                        <div class="panel__header"><h3>Classification Scores</h3></div>
+                        <div id="scoresContainer" class="scores-container"></div>
+                    </div>
+
+                    <!-- Activity Distribution -->
+                    <div class="panel">
+                        <div class="panel__header"><h3>Activity Distribution</h3></div>
+                        <div class="chart-container">
+                            <canvas id="distributionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Processing Pipeline -->
+                    <div class="panel">
+                        <div class="panel__header"><h3>Processing Pipeline</h3></div>
+                        <div class="pipeline">
+                            <div class="pipeline__step" id="pipeStep1">
+                                <div class="pipeline__icon">&#128247;</div>
+                                <div class="pipeline__label">Frame Capture</div>
+                            </div>
+                            <div class="pipeline__arrow">&#8594;</div>
+                            <div class="pipeline__step" id="pipeStep2">
+                                <div class="pipeline__icon">&#129516;</div>
+                                <div class="pipeline__label">Pose Detection</div>
+                            </div>
+                            <div class="pipeline__arrow">&#8594;</div>
+                            <div class="pipeline__step" id="pipeStep3">
+                                <div class="pipeline__icon">&#128290;</div>
+                                <div class="pipeline__label">Feature Extract</div>
+                            </div>
+                            <div class="pipeline__arrow">&#8594;</div>
+                            <div class="pipeline__step" id="pipeStep4">
+                                <div class="pipeline__icon">&#129504;</div>
+                                <div class="pipeline__label">Classify</div>
+                            </div>
+                            <div class="pipeline__arrow">&#8594;</div>
+                            <div class="pipeline__step" id="pipeStep5">
+                                <div class="pipeline__icon">&#128202;</div>
+                                <div class="pipeline__label">KPI Update</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="panel panel--full">
+                <div class="panel__header">
+                    <h3>Activity Timeline</h3>
+                    <select id="timelineRange" class="select">
+                        <option value="5">Last 5 min</option>
+                        <option value="15">Last 15 min</option>
+                        <option value="30" selected>Last 30 min</option>
+                        <option value="60">Last 1 hour</option>
+                    </select>
+                </div>
+                <div class="timeline-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TRAINING TAB (Two-column workspace) ===== -->
+        <section class="tab-content active" id="tab-training">
+            <!-- Project Bar -->
+            <div class="project-bar" id="projectBar">
+                <div class="project-bar__left">
+                    <select class="select" id="projectSelect" style="font-size:12px; padding:4px 8px; min-width:180px">
+                        <option value="">-- No Project (Global) --</option>
+                    </select>
+                    <button class="btn btn--primary" id="btnNewProject" style="font-size:11px; padding:3px 10px">+ New</button>
+                    <button class="btn btn--secondary" id="btnDeleteProject" style="font-size:11px; padding:3px 8px; display:none">Delete</button>
+                </div>
+                <div class="project-bar__right">
+                    <span id="projectPoseMode" style="font-size:11px; color:var(--text-muted)"></span>
+                    <span style="font-size:11px; color:var(--text-muted)">|</span>
+                    <span style="font-size:11px; color:var(--text-muted)">Collection:</span>
+                    <select class="select" id="projectCollectionLink" style="font-size:11px; padding:3px 6px">
+                        <option value="">None</option>
+                    </select>
+                </div>
+            </div>
+            <div class="training-workspace">
+                <!-- LEFT COLUMN: Video source, labels, model info -->
+                <div class="training-left">
+                    <!-- Video Source (compact) -->
+                    <div class="panel">
+                        <div class="panel__header"><h3>Video Source</h3></div>
+                        <div style="padding:10px">
+                            <div class="upload-source-tabs" style="margin-bottom:8px">
+                                <button class="upload-tab" data-source="file">Upload</button>
+                                <button class="upload-tab active" data-source="current">Demo</button>
+                            </div>
+                            <div class="upload-source" id="uploadSourceFile" style="display:none">
+                                <div class="upload-zone" id="uploadZone" style="padding:10px; display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer">
+                                    <span style="font-size:11px; color:var(--text-secondary)">Drop video or click to browse — copied to the server for training</span>
+                                    <span style="font-size:9px; color:var(--text-muted)">(H.264)</span>
+                                    <input type="file" id="trainingFileInput" accept="video/*,.mp4,.avi,.mov,.webm" multiple hidden>
+                                </div>
+                            </div>
+                            <div class="upload-source" id="uploadSourceCurrent">
+                                <select class="select" id="trainingDemoSelect" style="width:100%; font-size:12px">
+                                    <option value="">-- Choose demo video --</option>
+                                </select>
+                                <div class="current-video-status" id="currentVideoStatus" style="font-size:11px; margin-top:4px">No video selected</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Labeling -->
+                    <div class="panel" id="activityLabeler">
+                        <div class="panel__header"><h3>Activity Labels</h3></div>
+                        <div style="padding:10px">
+                            <!-- Range marker -->
+                            <div style="display:flex; align-items:center; gap:4px; margin-bottom:8px">
+                                <button class="btn btn--secondary" id="btnMarkStart" title="Shortcut: [" style="font-size:10px; padding:3px 8px">[ Start</button>
+                                <span class="activity-labeler__range" id="labelRange" style="font-size:10px; font-family:monospace; color:var(--accent); flex:1; text-align:center">--:-- → --:--</span>
+                                <button class="btn btn--secondary" id="btnMarkEnd" title="Shortcut: ]" style="font-size:10px; padding:3px 8px">End ]</button>
+                            </div>
+                            <!-- Activity checkboxes -->
+                            <div style="margin-bottom:6px">
+                                <div class="label-checkboxes" id="labelCheckboxes"></div>
+                                <div style="display:flex; gap:4px; margin-top:4px; align-items:center">
+                                    <input type="text" class="input" id="labelCustomActivity" placeholder="+ new activity" style="flex:1; font-size:11px; padding:3px 8px">
+                                    <select class="select" id="labelPerson" style="font-size:11px; padding:3px 6px; width:100px">
+                                        <option value="all">All</option>
+                                    </select>
+                                    <button class="btn btn--primary" id="btnAddLabel" style="font-size:10px; padding:3px 10px">Add</button>
+                                </div>
+                            </div>
+                            <!-- Label timeline -->
+                            <div class="activity-labeler__timeline" id="labelTimeline" style="min-height:40px">
+                                <div class="activity-labeler__empty" style="font-size:10px; padding:8px">[ ] to mark range, check activities, Add</div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:6px; margin-top:6px">
+                                <span class="activity-labeler__stats" id="labelStats" style="flex:1; font-size:10px; color:var(--text-secondary)">0 labels</span>
+                                <button class="btn btn--primary" id="btnTrainFromLabels" disabled style="font-size:10px; padding:3px 10px">Add & Train</button>
+                                <button class="btn btn--secondary" id="btnClearLabels" style="font-size:10px; padding:3px 8px">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dataset Manager + Classifier Status -->
+                    <div class="panel">
+                        <div class="panel__header">
+                            <h3>Dataset & Model</h3>
+                            <div class="panel__controls" style="gap:4px">
+                                <label class="annot-toggle" style="font-size:10px" title="Use ALL saved model versions together. Averages predictions for better accuracy.">
+                                    <input type="checkbox" id="ensembleToggle"> Ensemble
+                                </label>
+                                <button class="btn btn--secondary" id="btnRetrain" style="font-size:10px; padding:3px 8px" title="Re-train model on full accumulated dataset">Rebuild</button>
+                            </div>
+                        </div>
+                        <div style="padding:10px; font-size:11px; line-height:1.5">
+                            <!-- Active model info -->
+                            <div style="margin-bottom:6px">
+                                <strong>Active:</strong> <span id="modelVersion" style="color:var(--accent)">untrained</span>
+                                <span style="color:var(--text-muted)">|</span>
+                                <span id="modelType" style="color:var(--text-secondary)">--</span>
+                            </div>
+                            <div style="margin-bottom:6px">
+                                <strong>Classes:</strong> <span class="class-tags" id="modelClasses" style="display:inline-flex; flex-wrap:wrap; gap:3px"></span>
+                            </div>
+
+                            <!-- Dataset breakdown -->
+                            <div style="margin-top:8px; border-top:1px solid var(--border); padding-top:8px">
+                                <strong>Training Dataset:</strong> <span id="datasetSampleCount">0</span> samples
+                            </div>
+                            <div id="datasetActivities" style="margin-top:4px"></div>
+                            <div id="datasetSources" style="margin-top:6px"></div>
+
+                            <!-- Version history -->
+                            <div style="margin-top:8px; border-top:1px solid var(--border); padding-top:6px">
+                                <strong>Versions:</strong>
+                            </div>
+                            <div class="version-history" id="versionHistory" style="margin-top:4px"></div>
+
+                        </div>
+                    </div>
+
+                    <!-- Workers Gallery (scrollable) -->
+                    <div class="panel" id="reidPanel" style="min-height:0; display:flex; flex-direction:column">
+                        <div class="panel__header" style="flex-shrink:0">
+                            <h3>Workers <span id="reidBadge" class="reid-badge">ReID off</span></h3>
+                            <div class="panel__controls" style="gap:4px">
+                                <select class="select" id="collectionSelect" style="font-size:10px; padding:2px 6px; max-width:120px">
+                                    <option value="">Global</option>
+                                </select>
+                                <button class="btn btn--secondary" id="btnNewCollection" style="font-size:10px; padding:2px 6px">+</button>
+                                <input type="file" id="reidPhotoInput" accept="image/*" hidden>
+                                <button class="btn btn--secondary" id="btnEnrollPhoto" style="font-size:10px; padding:3px 8px">+ Photo</button>
+                            </div>
+                        </div>
+                        <div class="reid-gallery" id="reidGallery" style="padding:8px; overflow-y:auto; max-height:200px">
+                            <div class="reid-empty" id="reidEmpty" style="font-size:10px; padding:8px">
+                                No workers enrolled yet.
+                            </div>
+                            <div class="reid-workers" id="reidWorkers"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Pose Preview + Persons -->
+                <div class="training-right" id="posePreviewPanel">
+                    <div class="panel" style="height:100%; display:flex; flex-direction:column">
+                        <div class="panel__header" style="flex-shrink:0">
+                            <h3>Pose Preview</h3>
+                            <div class="panel__controls" style="flex-wrap:wrap">
+                                <span class="pose-preview__info" id="poseFrameInfo">Frame 0 / 0</span>
+                                <span class="pose-preview__info" id="poseFps" style="color:var(--success); min-width:65px"></span>
+                                <button class="btn btn--secondary" id="btnAnalyzeFrame" style="font-size:11px">Analyze</button>
+                                <button class="btn btn--primary" id="btnPosePlay" style="font-size:11px">&#9654; Play</button>
+                                <label class="pose-preview__toggle">
+                                    <input type="number" id="posePlayDelay" min="0" max="5000" value="0" step="1" style="width:45px; text-align:center; font-size:11px"> ms
+                                </label>
+                                <label class="pose-preview__toggle">
+                                    <input type="checkbox" id="poseAutoAnalyze" checked> Auto
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pose-preview" style="flex:1; overflow-y:auto">
+                            <div class="pose-preview__video-wrap">
+                                <video id="previewVideo" muted></video>
+                                <canvas id="poseCanvas"></canvas>
+                                <div class="pose-preview__badge" id="poseBadge" style="display:none">
+                                    <span id="poseBadgeActivity">--</span>
+                                    <span id="poseBadgeConf">0%</span>
+                                </div>
+                            </div>
+                            <div class="pose-preview__slider-wrap">
+                                <input type="range" id="frameSlider" class="pose-slider" min="0" max="100" value="0" step="1">
+                                <div class="pose-preview__time">
+                                    <span id="previewCurrentTime">0:00</span>
+                                    <span id="previewDuration">0:00</span>
+                                </div>
+                            </div>
+                            <div class="pose-preview__features" id="poseFeatures"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ANNOTATE TAB ===== -->
+        <section class="tab-content" id="tab-annotate">
+            <!-- Project selector / creator -->
+            <div class="annot-topbar">
+                <div class="annot-topbar__left">
+                    <select class="select" id="annotProjectSelect">
+                        <option value="">-- Select Project --</option>
+                    </select>
+                    <button class="btn btn--secondary" id="btnDeleteProject" style="display:none">Delete</button>
+                </div>
+                <div class="annot-topbar__right">
+                    <select class="select" id="annotDemoSelect">
+                        <option value="">-- Demo Video --</option>
+                    </select>
+                    <button class="btn btn--primary" id="btnNewProjectDemo">New from Demo</button>
+                    <span class="annot-topbar__sep">or</span>
+                    <button class="btn btn--secondary" id="btnNewProjectUpload">Upload Video</button>
+                    <input type="file" id="annotVideoInput" accept="video/*" hidden>
+                </div>
+            </div>
+
+            <!-- Main annotation workspace -->
+            <div class="annot-workspace" id="annotWorkspace" style="display:none">
+                <div class="annot-grid">
+                    <!-- Canvas area -->
+                    <div class="panel annot-canvas-panel">
+                        <div class="panel__header">
+                            <h3 id="annotProjectName">Annotation</h3>
+                            <div class="panel__controls">
+                                <button class="btn btn--secondary" id="btnAutoDetect">Auto-Detect</button>
+                                <label class="annot-toggle">
+                                    <input type="checkbox" id="annotAutoDetect"> Auto
+                                </label>
+                                <button class="btn btn--primary" id="btnSaveFrame">Save Frame</button>
+                            </div>
+                        </div>
+                        <div class="annot-canvas-wrap" id="annotCanvasWrap">
+                            <img id="annotFrameImg" draggable="false">
+                            <canvas id="annotCanvas"></canvas>
+                        </div>
+                        <!-- Frame scrubber -->
+                        <div class="annot-scrubber">
+                            <button class="btn btn--secondary annot-nav-btn" id="btnPrevFrame">&larr;</button>
+                            <input type="range" id="annotFrameSlider" class="pose-slider annot-slider" min="0" max="100" value="0" step="1">
+                            <button class="btn btn--secondary annot-nav-btn" id="btnNextFrame">&rarr;</button>
+                            <span class="annot-frame-info" id="annotFrameInfo">Frame 0 / 0</span>
+                            <input type="number" id="annotFrameJump" class="input annot-jump-input" min="0" placeholder="#">
+                            <button class="btn btn--secondary" id="btnFrameJump">Go</button>
+                        </div>
+                    </div>
+
+                    <!-- Keypoint list sidebar -->
+                    <div class="panel annot-sidebar">
+                        <div class="panel__header">
+                            <h3>Keypoints (<span id="annotKpCount">17</span>)</h3>
+                            <label class="annot-toggle">
+                                <input type="checkbox" id="annotShowSkeleton" checked> Skeleton
+                            </label>
+                        </div>
+                        <div class="annot-kp-list" id="annotKpList">
+                            <div class="annot-kp-empty">Auto-detect or load a frame to see keypoints</div>
+                        </div>
+                        <div class="annot-sidebar-footer">
+                            <div class="annot-stats" id="annotStats">
+                                <span>Annotated: <strong id="annotCountSaved">0</strong> / <span id="annotCountTotal">0</span> frames</span>
+                            </div>
+                            <div class="annot-export-btns">
+                                <button class="btn btn--primary" id="btnExportCOCO">Export COCO JSON</button>
+                                <button class="btn btn--secondary" id="btnExportFrames">Export Frames</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Annotated frames strip -->
+                <div class="panel panel--full annot-strip-panel">
+                    <div class="panel__header">
+                        <h3>Annotated Frames</h3>
+                        <span class="annot-strip-hint">Click to jump to a saved frame</span>
+                    </div>
+                    <div class="annot-strip" id="annotStrip"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== EVENTS LOG TAB ===== -->
+        <section class="tab-content" id="tab-events">
+            <div class="panel panel--full">
+                <div class="panel__header">
+                    <h3>Event Log</h3>
+                    <div class="panel__controls">
+                        <button class="btn btn--secondary" id="btnExportCSV">Export CSV</button>
+                        <button class="btn btn--secondary" id="btnExportJSON">Export JSON</button>
+                    </div>
+                </div>
+                <div class="events-table-wrap">
+                    <table class="events-table" id="eventsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Timestamp</th>
+                                <th>Activity</th>
+                                <th>Confidence</th>
+                                <th>Duration</th>
+                                <th>Worker</th>
+                                <th>Zone</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>Warehouse Activity Intelligence v1.0</span>
+        <span>|</span>
+        <span id="footerEngine">Pose: RTMPose [balanced] | Classifier: RandomForest | License: Apache 2.0</span>
+        <span>|</span>
+        <span>API: <a href="/docs" target="_blank">/docs</a></span>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="annotate.js"></script>
+</body>
+</html>

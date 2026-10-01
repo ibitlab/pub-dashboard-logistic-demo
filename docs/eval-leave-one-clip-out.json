@@ -1,0 +1,705 @@
+{
+  "note": "Activity classifier, 9 Pexels clips renamed as camera feeds. Same RandomForest as the Training tab.",
+  "random_frame_split_80_20": {
+    "macro_f1": 0.943,
+    "per_label_f1": {
+      "carrying": 1.0,
+      "picking": 0.762,
+      "pull-cart": 0.857,
+      "push-cart": 0.985,
+      "scanning": 0.98,
+      "standing": 0.977,
+      "talking": 1.0,
+      "walking": 0.981
+    },
+    "warning": "adjacent frames leak between train and test; not a valid accuracy"
+  },
+  "leave_one_clip_out_pose_and_motion": {
+    "samples": 1188,
+    "features": 15,
+    "clips": [
+      "cam-01-aisle-a-overhead_clip1.mp4",
+      "cam-01-aisle-a-overhead_clip2.mp4",
+      "cam-01-aisle-a-overhead_clip3.mp4",
+      "cam-02-aisle-b-overhead_clip1.mp4",
+      "cam-03-racks-topdown_clip1.mp4",
+      "cam-04-aisle-floor-level_clip1.mp4",
+      "cam-04-aisle-floor-level_clip2.mp4",
+      "cam-05-loading-dock_clip1.mp4",
+      "cam-06-storage-cleaning_clip1.mp4"
+    ],
+    "labels": {
+      "carrying": {
+        "tp": 0,
+        "fp": 88,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-04-aisle-floor-level_clip1.mp4"
+        ]
+      },
+      "picking": {
+        "tp": 0,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-03-racks-topdown_clip1.mp4"
+        ]
+      },
+      "pull-cart": {
+        "tp": 0,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-03-racks-topdown_clip1.mp4"
+        ]
+      },
+      "push-cart": {
+        "tp": 0,
+        "fp": 4,
+        "fn": 148,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "untestable_on": []
+      },
+      "scanning": {
+        "tp": 0,
+        "fp": 127,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-04-aisle-floor-level_clip2.mp4"
+        ]
+      },
+      "standing": {
+        "tp": 0,
+        "fp": 212,
+        "fn": 252,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "untestable_on": []
+      },
+      "talking": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-01-aisle-a-overhead_clip1.mp4"
+        ]
+      },
+      "walking": {
+        "tp": 666,
+        "fp": 287,
+        "fn": 223,
+        "precision": 0.6988457502623295,
+        "recall": 0.749156355455568,
+        "f1": 0.7231270358306189,
+        "untestable_on": []
+      }
+    },
+    "macro_f1": 0.24104234527687296,
+    "folds": [
+      {
+        "clip": "cam-01-aisle-a-overhead_clip1.mp4",
+        "samples": 191,
+        "labels": {
+          "picking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 3,
+            "fn": 0
+          },
+          "pull-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 2,
+            "fn": 0
+          },
+          "standing": {
+            "true": 135,
+            "tp": 0,
+            "fp": 0,
+            "fn": 135
+          },
+          "talking": {
+            "untestable": true,
+            "true": 135
+          },
+          "walking": {
+            "true": 56,
+            "tp": 52,
+            "fp": 135,
+            "fn": 4
+          }
+        }
+      },
+      {
+        "clip": "cam-01-aisle-a-overhead_clip2.mp4",
+        "samples": 214,
+        "labels": {
+          "picking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 2,
+            "fn": 0
+          },
+          "pull-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 8,
+            "fn": 0
+          },
+          "push-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 1,
+            "fn": 0
+          },
+          "walking": {
+            "true": 214,
+            "tp": 212,
+            "fp": 0,
+            "fn": 2
+          }
+        }
+      },
+      {
+        "clip": "cam-01-aisle-a-overhead_clip3.mp4",
+        "samples": 95,
+        "labels": {
+          "push-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 1,
+            "fn": 0
+          },
+          "walking": {
+            "true": 95,
+            "tp": 95,
+            "fp": 0,
+            "fn": 0
+          }
+        }
+      },
+      {
+        "clip": "cam-02-aisle-b-overhead_clip1.mp4",
+        "samples": 126,
+        "labels": {
+          "walking": {
+            "true": 126,
+            "tp": 126,
+            "fp": 0,
+            "fn": 0
+          }
+        }
+      },
+      {
+        "clip": "cam-03-racks-topdown_clip1.mp4",
+        "samples": 87,
+        "labels": {
+          "picking": {
+            "untestable": true,
+            "true": 47
+          },
+          "pull-cart": {
+            "untestable": true,
+            "true": 40
+          },
+          "push-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 2,
+            "fn": 0
+          },
+          "standing": {
+            "true": 0,
+            "tp": 0,
+            "fp": 16,
+            "fn": 0
+          },
+          "talking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 1,
+            "fn": 0
+          },
+          "walking": {
+            "true": 40,
+            "tp": 37,
+            "fp": 35,
+            "fn": 3
+          }
+        }
+      },
+      {
+        "clip": "cam-04-aisle-floor-level_clip1.mp4",
+        "samples": 210,
+        "labels": {
+          "carrying": {
+            "untestable": true,
+            "true": 210
+          },
+          "scanning": {
+            "true": 0,
+            "tp": 0,
+            "fp": 127,
+            "fn": 0
+          },
+          "standing": {
+            "true": 0,
+            "tp": 0,
+            "fp": 196,
+            "fn": 0
+          },
+          "walking": {
+            "true": 210,
+            "tp": 14,
+            "fp": 0,
+            "fn": 196
+          }
+        }
+      },
+      {
+        "clip": "cam-04-aisle-floor-level_clip2.mp4",
+        "samples": 117,
+        "labels": {
+          "carrying": {
+            "true": 0,
+            "tp": 0,
+            "fp": 88,
+            "fn": 0
+          },
+          "scanning": {
+            "untestable": true,
+            "true": 117
+          },
+          "standing": {
+            "true": 117,
+            "tp": 0,
+            "fp": 0,
+            "fn": 117
+          },
+          "walking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 117,
+            "fn": 0
+          }
+        }
+      },
+      {
+        "clip": "cam-05-loading-dock_clip1.mp4",
+        "samples": 104,
+        "labels": {
+          "picking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 2,
+            "fn": 0
+          },
+          "push-cart": {
+            "true": 104,
+            "tp": 0,
+            "fp": 0,
+            "fn": 104
+          },
+          "walking": {
+            "true": 104,
+            "tp": 86,
+            "fp": 0,
+            "fn": 18
+          }
+        }
+      },
+      {
+        "clip": "cam-06-storage-cleaning_clip1.mp4",
+        "samples": 44,
+        "labels": {
+          "push-cart": {
+            "true": 44,
+            "tp": 0,
+            "fp": 0,
+            "fn": 44
+          },
+          "walking": {
+            "true": 44,
+            "tp": 44,
+            "fp": 0,
+            "fn": 0
+          }
+        }
+      }
+    ]
+  },
+  "leave_one_clip_out_pose_only": {
+    "samples": 1188,
+    "features": 7,
+    "clips": [
+      "cam-01-aisle-a-overhead_clip1.mp4",
+      "cam-01-aisle-a-overhead_clip2.mp4",
+      "cam-01-aisle-a-overhead_clip3.mp4",
+      "cam-02-aisle-b-overhead_clip1.mp4",
+      "cam-03-racks-topdown_clip1.mp4",
+      "cam-04-aisle-floor-level_clip1.mp4",
+      "cam-04-aisle-floor-level_clip2.mp4",
+      "cam-05-loading-dock_clip1.mp4",
+      "cam-06-storage-cleaning_clip1.mp4"
+    ],
+    "labels": {
+      "carrying": {
+        "tp": 0,
+        "fp": 108,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-04-aisle-floor-level_clip1.mp4"
+        ]
+      },
+      "picking": {
+        "tp": 0,
+        "fp": 9,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-03-racks-topdown_clip1.mp4"
+        ]
+      },
+      "pull-cart": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-03-racks-topdown_clip1.mp4"
+        ]
+      },
+      "push-cart": {
+        "tp": 0,
+        "fp": 18,
+        "fn": 148,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "untestable_on": []
+      },
+      "scanning": {
+        "tp": 0,
+        "fp": 123,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-04-aisle-floor-level_clip2.mp4"
+        ]
+      },
+      "standing": {
+        "tp": 0,
+        "fp": 149,
+        "fn": 252,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "untestable_on": []
+      },
+      "talking": {
+        "tp": 0,
+        "fp": 22,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "untestable_on": [
+          "cam-01-aisle-a-overhead_clip1.mp4"
+        ]
+      },
+      "walking": {
+        "tp": 720,
+        "fp": 297,
+        "fn": 169,
+        "precision": 0.7079646017699115,
+        "recall": 0.8098987626546682,
+        "f1": 0.7555089192025184,
+        "untestable_on": []
+      }
+    },
+    "macro_f1": 0.2518363064008395,
+    "folds": [
+      {
+        "clip": "cam-01-aisle-a-overhead_clip1.mp4",
+        "samples": 191,
+        "labels": {
+          "picking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 5,
+            "fn": 0
+          },
+          "push-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 2,
+            "fn": 0
+          },
+          "standing": {
+            "true": 135,
+            "tp": 0,
+            "fp": 0,
+            "fn": 135
+          },
+          "talking": {
+            "untestable": true,
+            "true": 135
+          },
+          "walking": {
+            "true": 56,
+            "tp": 48,
+            "fp": 134,
+            "fn": 8
+          }
+        }
+      },
+      {
+        "clip": "cam-01-aisle-a-overhead_clip2.mp4",
+        "samples": 214,
+        "labels": {
+          "picking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 3,
+            "fn": 0
+          },
+          "push-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 13,
+            "fn": 0
+          },
+          "standing": {
+            "true": 0,
+            "tp": 0,
+            "fp": 8,
+            "fn": 0
+          },
+          "talking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 8,
+            "fn": 0
+          },
+          "walking": {
+            "true": 214,
+            "tp": 188,
+            "fp": 0,
+            "fn": 26
+          }
+        }
+      },
+      {
+        "clip": "cam-01-aisle-a-overhead_clip3.mp4",
+        "samples": 95,
+        "labels": {
+          "push-cart": {
+            "true": 0,
+            "tp": 0,
+            "fp": 3,
+            "fn": 0
+          },
+          "walking": {
+            "true": 95,
+            "tp": 94,
+            "fp": 0,
+            "fn": 1
+          }
+        }
+      },
+      {
+        "clip": "cam-02-aisle-b-overhead_clip1.mp4",
+        "samples": 126,
+        "labels": {
+          "standing": {
+            "true": 0,
+            "tp": 0,
+            "fp": 3,
+            "fn": 0
+          },
+          "talking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 1,
+            "fn": 0
+          },
+          "walking": {
+            "true": 126,
+            "tp": 124,
+            "fp": 0,
+            "fn": 2
+          }
+        }
+      },
+      {
+        "clip": "cam-03-racks-topdown_clip1.mp4",
+        "samples": 87,
+        "labels": {
+          "picking": {
+            "untestable": true,
+            "true": 47
+          },
+          "pull-cart": {
+            "untestable": true,
+            "true": 40
+          },
+          "standing": {
+            "true": 0,
+            "tp": 0,
+            "fp": 7,
+            "fn": 0
+          },
+          "talking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 7,
+            "fn": 0
+          },
+          "walking": {
+            "true": 40,
+            "tp": 34,
+            "fp": 46,
+            "fn": 6
+          }
+        }
+      },
+      {
+        "clip": "cam-04-aisle-floor-level_clip1.mp4",
+        "samples": 210,
+        "labels": {
+          "carrying": {
+            "untestable": true,
+            "true": 210
+          },
+          "scanning": {
+            "true": 0,
+            "tp": 0,
+            "fp": 123,
+            "fn": 0
+          },
+          "standing": {
+            "true": 0,
+            "tp": 0,
+            "fp": 123,
+            "fn": 0
+          },
+          "walking": {
+            "true": 210,
+            "tp": 88,
+            "fp": 0,
+            "fn": 122
+          }
+        }
+      },
+      {
+        "clip": "cam-04-aisle-floor-level_clip2.mp4",
+        "samples": 117,
+        "labels": {
+          "carrying": {
+            "true": 0,
+            "tp": 0,
+            "fp": 108,
+            "fn": 0
+          },
+          "scanning": {
+            "untestable": true,
+            "true": 117
+          },
+          "standing": {
+            "true": 117,
+            "tp": 0,
+            "fp": 0,
+            "fn": 117
+          },
+          "walking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 117,
+            "fn": 0
+          }
+        }
+      },
+      {
+        "clip": "cam-05-loading-dock_clip1.mp4",
+        "samples": 104,
+        "labels": {
+          "picking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 1,
+            "fn": 0
+          },
+          "push-cart": {
+            "true": 104,
+            "tp": 0,
+            "fp": 0,
+            "fn": 104
+          },
+          "standing": {
+            "true": 0,
+            "tp": 0,
+            "fp": 8,
+            "fn": 0
+          },
+          "talking": {
+            "true": 0,
+            "tp": 0,
+            "fp": 6,
+            "fn": 0
+          },
+          "walking": {
+            "true": 104,
+            "tp": 100,
+            "fp": 0,
+            "fn": 4
+          }
+        }
+      },
+      {
+        "clip": "cam-06-storage-cleaning_clip1.mp4",
+        "samples": 44,
+        "labels": {
+          "push-cart": {
+            "true": 44,
+            "tp": 0,
+            "fp": 0,
+            "fn": 44
+          },
+          "walking": {
+            "true": 44,
+            "tp": 44,
+            "fp": 0,
+            "fn": 0
+          }
+        }
+      }
+    ]
+  }
+}
